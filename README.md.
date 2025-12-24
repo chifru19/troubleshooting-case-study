@@ -1,0 +1,34 @@
+# 🛠️ Git Workflow & Troubleshooting Case Study
+**Author:** Frank Fru  
+**Project:** Publishing a Local Infrastructure Project to GitHub
+
+---
+
+## 1. The Challenge 🚩
+I set out to publish a multi-file Terraform project (`secure-url-shortener-tf`) to GitHub. What should have been a standard push turned into a series of interlocking system and synchronization errors. This study documents how I unblocked my local environment and established a clean CI/CD workflow.
+
+## 2. The Diagnostic Matrix 🔍
+I encountered three "showstopper" errors. Here is how I systematically resolved them:
+
+| Error Message | Root Cause | Engineering Resolution |
+| :--- | :--- | :--- |
+| `fatal: repository not found` | Local Git pointed to a URL that didn't exist on the server. | Manually created the repository via the GitHub UI. |
+| `fatal: index.lock: File exists` | A crashed process left a "lock" file, preventing all new commands. | Force-deleted the lock file using `rm -f .git/index.lock`. |
+| `src refspec main does not match` | The local branch was empty, giving Git nothing to push. | Initialized commits with `git add .` and `git commit`. |
+
+## 3. The Final Workflow 🚀
+To solve the "interlocking" nature of these errors, I executed this recovery sequence:
+1. **Unblock System:** `rm -f .git/index.lock`
+2. **Stage Assets:** `git add .`
+3. **Save State:** `git commit -m "Initial project files commit"`
+4. **Establish Link:** `git push --set-upstream origin main`
+
+## 4. Successful Outcome ✅
+The final `git status` confirms a perfectly synchronized environment:
+> *On branch main. Your branch is up to date with 'origin/main'. nothing to commit, working tree clean.*
+
+---
+
+### 🔗 Project Links
+* **Live Infrastructure Code:** [Secure URL Shortener (Terraform)](https://github.com/chifru19/secure-url-shortener-tf)
+* **Technical Bio:** [Frank Fru GitHub Profile](https://github.com/chifru19)
